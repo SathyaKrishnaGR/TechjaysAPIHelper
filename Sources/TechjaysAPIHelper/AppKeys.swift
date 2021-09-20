@@ -12,12 +12,12 @@ import UIKit
 
 public struct AppKeys {
     
-    init(userDefaults: UserDefault) {
+    public init(userDefaults: UserDefault) {
         
     }
     static let DeviceUUID = UIDevice.current.identifierForVendor?.uuidString ?? ""
     
-    struct UserDefault {
+    public struct UserDefault {
         static let authTokenKey = "Auth-Token"
         static let userKey = "user"
     }
