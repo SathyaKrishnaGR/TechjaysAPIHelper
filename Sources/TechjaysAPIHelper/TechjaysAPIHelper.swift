@@ -1,7 +1,7 @@
 struct TechjaysAPIHelper {
     var text = "Hello, World!"
     
-    init(appKeys: AppKeys) {
+    init() {
         
     }
     public func getAPIBasics(appKeys: AppKeys) {
