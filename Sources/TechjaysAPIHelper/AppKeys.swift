@@ -11,6 +11,10 @@ import UIKit
 
 
 public struct AppKeys {
+    
+    init(userDefaults: UserDefault) {
+        
+    }
     static let DeviceUUID = UIDevice.current.identifierForVendor?.uuidString ?? ""
     
     struct UserDefault {
