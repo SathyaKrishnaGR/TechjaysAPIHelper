@@ -10,7 +10,7 @@ import UIKit
 
 
 
-struct AppKeys {
+public struct AppKeys {
     static let DeviceUUID = UIDevice.current.identifierForVendor?.uuidString ?? ""
     
     struct UserDefault {
