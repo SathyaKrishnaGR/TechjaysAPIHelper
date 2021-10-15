@@ -10,20 +10,20 @@ import Foundation
 import Alamofire
 import UIKit
 
-typealias APICompletion<T: Codable> =  (_ status: APIClient.Status, _ response: APIResponse<T>) -> Void
+public typealias  APICompletion<T: Codable> =  (_ status: APIClient.Status, _ response: APIResponse<T>) -> Void
 
 public class APIClient {
     
     static let shared = APIClient()
     let urlFactory = URLFactory()
     
-    init() {}
+    public init() {}
     
     /// Sends a GET request to the server
     /// - Parameters:
     ///   - url: Request URL
     ///   - completion: Completion callback which will be called asyncronously when response is received
-    func GET<T: Codable>(url: String,
+    public func GET<T: Codable>(url: String,
                          headers: [String: String]? = nil,
                          completion:@escaping APICompletion<T>) {
         executeRequest(to: url, headers: headers, requestType: .get, completion: completion)
@@ -34,7 +34,7 @@ public class APIClient {
     ///   - url: Request URL
     ///   - payload: Request Payload
     ///   - completion: Completion callback which will be called asyncronously when response is received
-    func POST<P, T: Codable> (url: String,
+    public func POST<P, T: Codable> (url: String,
                               headers: [String: String]? = nil,
                               payload: P,
                               completion:@escaping APICompletion<T>) {
@@ -46,7 +46,7 @@ public class APIClient {
     ///   - url: Request URL
     ///   - payload: Request Payload
     ///   - completion: Completion callback which will be called asyncronously when response is received
-    func PUT<P, T: Codable> (url: String,
+    public func PUT<P, T: Codable> (url: String,
                              headers: [String: String]? = nil,
                              payload: P,
                              completion: @escaping APICompletion<T>) {
@@ -57,7 +57,7 @@ public class APIClient {
     /// - Parameters:
     ///   - url: Request URL
     ///   - completion: Completion callback which will be called asyncronously when response is received
-    func DELETE<P, T: Codable>(url: String,
+    public func DELETE<P, T: Codable>(url: String,
                                headers: [String: String]? = nil,
                                payload: P,
                                completion: @escaping APICompletion<T>) {
@@ -71,7 +71,7 @@ public class APIClient {
     ///   - payload: Request payload. Note: The values should always be string for MultipartFormData request
     ///   - image: Key - Image field name, Value - Image to be sent
     ///   - completion: Completion callback which will be called asyncronously when response is received
-    func MULTIPART<T: Codable> (url: String,
+    public func MULTIPART<T: Codable> (url: String,
                                 headers: [String: String]? = nil,
                                 uploadType method: HTTPMethod,
                                 image: (key: String, value: UIImage)? = nil,
@@ -91,7 +91,7 @@ public class APIClient {
     ///   - payload: Request payload. Note: The values should always be string for MultipartFormData request
     ///   - image: Key - Image field name, Value - Image to be sent
     ///   - completion: Completion callback which will be called asyncronously when response is received
-    func MULTIPART<P, T: Codable> (url: String,
+    public func MULTIPART<P, T: Codable> (url: String,
                                    headers: [String: String]? = nil,
                                    uploadType method: HTTPMethod,
                                    payload: P,
@@ -113,7 +113,7 @@ extension APIClient {
     ///   - method: HTTP Request type - GET, POST, PUT, DELETE
     ///   - payload: Request payload. Note: The values should always be string for MultipartFormData request
     ///   - completion: Completion callback which will be called asyncronously when response is received
-    private func executeRequest<T: Codable>(to url: String,
+    public func executeRequest<T: Codable>(to url: String,
                                             headers: [String: String]? = nil,
                                             requestType method: HTTPMethod,
                                             payload: [String: Any]? = nil,
@@ -144,7 +144,7 @@ extension APIClient {
     ///   - image: Key - Image field name, Value - Image to be sent
     ///   - param: Request payload. Note: The values should always be string for MultipartFormData request
     ///   - completion: Completion callback which will be called asyncronously when response is received
-    private func executeRequest<T: Codable>(to url: String,
+    public func executeRequest<T: Codable>(to url: String,
                                             headers: [String: String]? = nil,
                                             requestType method: HTTPMethod,
                                             payload param: [String: Any],
@@ -192,7 +192,7 @@ extension APIClient {
     /// - Parameters:
     ///   - response: Alamofire response which was received from the server
     ///   - completion: Completion callback through which the Success or Failure response will be sent
-    private func parseResponse<T: Codable>(
+    public func parseResponse<T: Codable>(
         response: AFDataResponse<Any>,
         completion :@escaping APICompletion<T>) {
         do {
@@ -231,7 +231,7 @@ extension APIClient {
 }
 
 extension APIClient {
-    private func parsePayload<P>(_ payload: P) -> [String: Any]? {
+    public func parsePayload<P>(_ payload: P) -> [String: Any]? {
         if let codable = payload as? Codable {
             return codable.asDictionary()
         }
@@ -241,7 +241,7 @@ extension APIClient {
         return nil
     }
 
-    private func buildHeaders(contentType: String, overrideHeaders: [String: String]? = nil) -> HTTPHeaders {
+    public func buildHeaders(contentType: String, overrideHeaders: [String: String]? = nil) -> HTTPHeaders {
         var headers: HTTPHeaders = [
             APIStrings.APIClient.contentType: contentType,
             APIStrings.APIClient.device: AppKeys.DeviceUUID,
@@ -256,13 +256,13 @@ extension APIClient {
         return headers
     }
 
-    private func addAuthToken(_ headers: inout HTTPHeaders) {
+    public func addAuthToken(_ headers: inout HTTPHeaders) {
 //        if let token = "LocalStorage.standard.user?.token" {
 //            headers[APIStrings.APIClient.authorization] = String(format: APIStrings.APIClient.token, token)
 //        }
     }
 
-    private func isNetworkReachable<T>(_ completion: @escaping APICompletion<T>)
+    public func isNetworkReachable<T>(_ completion: @escaping APICompletion<T>)
         -> Bool {
         if NetworkReachabilityManager()?.isReachable ?? false {
             return true
@@ -274,11 +274,11 @@ extension APIClient {
         return false
     }
 
-    enum Status {
+    public enum Status {
         case SUCCESS, FAILURE
     }
 
-    enum UploadType {
+    public enum UploadType {
         case POST, PUT
     }
 }

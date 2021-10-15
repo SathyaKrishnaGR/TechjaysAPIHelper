@@ -7,7 +7,7 @@
 
 import Foundation
 public struct APIStrings {
-    struct APIClient {
+    public struct APIClient {
         static let contentType = "content-type"
         static let applicationJson = "application/json"
         static let multipartFormData = "multipart/form-data"
