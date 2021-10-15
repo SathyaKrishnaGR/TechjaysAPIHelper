@@ -18,6 +18,9 @@ public struct AppKeys {
     static let DeviceUUID = UIDevice.current.identifierForVendor?.uuidString ?? ""
     
     public struct UserDefault {
+        public init(authTokenKey: String, userKey: String) {
+            
+        }
         static let authTokenKey = "Auth-Token"
         static let userKey = "user"
     }
