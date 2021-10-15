@@ -15,7 +15,7 @@ enum QueryParam: String {
     case limit
 }
 
- class URLFactory {
+ public class URLFactory {
     
     public static let shared = URLFactory()
     
@@ -29,9 +29,9 @@ enum QueryParam: String {
     ///   - version: API version
     ///   - query: Preset query parameters like search, fields & pagination
     /// - Returns: Fayvit URL string for the provided paramters
-   public func url(
+    func url(
         endpoint: String,
-        query: [QueryParam: String] = [.limit: String("Int { return 10 }")],
+        query: [QueryParam: String] = [.limit: String("10")],
         parameters: [String: String] = [:],
         pathVariable: String = "",
         version: Int = 1
