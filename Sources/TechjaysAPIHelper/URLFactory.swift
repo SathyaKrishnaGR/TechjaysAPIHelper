@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum QueryParam: String {
+public enum QueryParam: String {
     case search
     case fields
     case offset
@@ -29,7 +29,7 @@ enum QueryParam: String {
     ///   - version: API version
     ///   - query: Preset query parameters like search, fields & pagination
     /// - Returns: Fayvit URL string for the provided paramters
-    func url(
+    public func url(
         endpoint: String,
         query: [QueryParam: String] = [.limit: String("10")],
         parameters: [String: String] = [:],
