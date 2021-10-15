@@ -42,16 +42,16 @@ public enum QueryParam: String {
 }
 
 extension URLFactory {
-    private func buildBaseUrl(for version: Int) -> String {
+    public func buildBaseUrl(for version: Int) -> String {
 //        return AppUrls.base + String(format: AppUrls.version, version)
         return ""
     }
 
-    private func buildPathVariable(for url: String, with pathVariable: String) -> String {
+    public func buildPathVariable(for url: String, with pathVariable: String) -> String {
         return pathVariable.isEmpty ? "\(url)" : "\(url)\(pathVariable)/"
     }
 
-    private func queryParamsOf(_ query: [QueryParam: String], _ parameters: [String: String]) -> String {
+    public func queryParamsOf(_ query: [QueryParam: String], _ parameters: [String: String]) -> String {
         var queryParams = [String]()
         for (key, value) in query {
             queryParams.append("\(key)=\(value)")
