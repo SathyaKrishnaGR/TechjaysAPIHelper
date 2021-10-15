@@ -12,7 +12,7 @@ import UIKit
 
 typealias APICompletion<T: Codable> =  (_ status: APIClient.Status, _ response: APIResponse<T>) -> Void
 
-class APIClient {
+public class APIClient {
     
     static let shared = APIClient()
     let urlFactory = URLFactory()

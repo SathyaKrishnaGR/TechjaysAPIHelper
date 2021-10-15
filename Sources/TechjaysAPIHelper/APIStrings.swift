@@ -6,7 +6,7 @@
 //
 
 import Foundation
-struct APIStrings {
+public struct APIStrings {
     struct APIClient {
         static let contentType = "content-type"
         static let applicationJson = "application/json"

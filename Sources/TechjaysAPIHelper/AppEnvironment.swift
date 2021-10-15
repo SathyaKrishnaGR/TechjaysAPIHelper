@@ -13,13 +13,13 @@ let region = locale.regionCode ?? ""
 
 
 
-struct AppUrls {
+public struct AppUrls {
     let base = ""
     static let version = "api/v%d/"
 }
 
 /// Fayvit Environment properties
-enum AppEnvironment: CaseIterable {
+public enum AppEnvironment: CaseIterable {
     case development
     case staging
     case production

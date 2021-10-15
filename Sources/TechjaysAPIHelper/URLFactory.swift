@@ -15,7 +15,7 @@ enum QueryParam: String {
     case limit
 }
 
-class URLFactory {
+public class URLFactory {
     
     static let shared = URLFactory()
     

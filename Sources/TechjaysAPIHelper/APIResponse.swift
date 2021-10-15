@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct APIResponse<T: Codable>: Codable {
+public struct APIResponse<T: Codable>: Codable {
     var result: Bool
     var msg: String
     var data: T?
