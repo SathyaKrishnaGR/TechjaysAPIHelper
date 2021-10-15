@@ -43,8 +43,7 @@ public enum QueryParam: String {
 
 extension URLFactory {
     public func buildBaseUrl(for version: Int) -> String {
-//        return AppUrls.base + String(format: AppUrls.version, version)
-        return ""
+        return "https://dev.myfayvit.com/" + String(format: "api/v%d/", version)
     }
 
     public func buildPathVariable(for url: String, with pathVariable: String) -> String {
