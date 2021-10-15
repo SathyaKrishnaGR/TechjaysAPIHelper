@@ -17,7 +17,7 @@ enum QueryParam: String {
 
 public class URLFactory {
     
-    static let shared = URLFactory()
+    public static let shared = URLFactory()
     
     init() {}
     
