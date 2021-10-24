@@ -1,9 +1,9 @@
 //
 //  URLFactory.swift
-//  Fayvit
+//  TechjaysAPIHelper
 //
-//  Created by Sharran on 8/21/20.
-//  Copyright © 2020 Iderize. All rights reserved.
+//  Created by Sathya on 10/24/21.
+//  Copyright © 2021 Techjays. All rights reserved.
 //
 
 import Foundation
@@ -18,32 +18,34 @@ public enum QueryParam: String {
  public class URLFactory {
     
     public static let shared = URLFactory()
+     public var baseUrl: String = ""
+     public var version: String = ""
     
     public init() {}
     
-    /// Generate Fayvit URL String for provided endpoint
+    /// Generate TechjaysAPIHelper URL String for provided endpoint
     /// - Parameters:
     ///   - endpoint: Enpoint of the request
     ///   - parameters: Request parameters of the request
     ///   - pathVariable: Path variable of the request
     ///   - version: API version
     ///   - query: Preset query parameters like search, fields & pagination
-    /// - Returns: Fayvit URL string for the provided paramters
+    /// - Returns: TechjaysAPIHelper URL string for the provided paramters
     public func url(
         endpoint: String,
         query: [QueryParam: String] = [.limit: String("10")],
         parameters: [String: String] = [:],
         pathVariable: String = "",
-        version: Int = 1
+        version: String = "1"
     ) -> String {
-        let url = buildBaseUrl(for: version) + endpoint
+        let url = buildBaseUrl(baseUrl: self.baseUrl, version: self.version) + endpoint
         return buildPathVariable(for: url, with: pathVariable) + queryParamsOf(query, parameters)
     }
 }
 
 extension URLFactory {
-    public func buildBaseUrl(for version: Int) -> String {
-        return "https://dev.myfayvit.com/" + String(format: "api/v%d/", version)
+    public func buildBaseUrl(baseUrl: String, version: String) -> String {
+        return baseUrl + version
     }
 
     public func buildPathVariable(for url: String, with pathVariable: String) -> String {

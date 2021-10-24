@@ -1,9 +1,9 @@
 //
 //  APIResponse.swift
-//  Fayvit
+//  TechjaysAPIHelper
 //
-//  Created by Sharran on 8/17/20.
-//  Copyright © 2020 Iderize. All rights reserved.
+//  Created by Sathya on 10/24/21.
+//  Copyright © 2021 Techjays. All rights reserved.
 //
 
 import Foundation

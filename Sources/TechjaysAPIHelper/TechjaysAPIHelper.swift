@@ -1,9 +1,6 @@
 public struct TechjaysAPIHelper {
-    public var baseUrl: String?
-    public var version: String?
-    
-    public init(baseUrl: String, version: String) {
-        self.baseUrl = baseUrl
-        self.version = version
+    public func setupApiHelper(baseUrl: String, version: String) {
+        URLFactory.shared.baseUrl = baseUrl
+        URLFactory.shared.version = version
     }
 }
