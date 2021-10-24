@@ -13,7 +13,7 @@ import UIKit
 public typealias  APICompletion<T: Codable> =  (_ status: APIClient.Status, _ response: APIResponse<T>) -> Void
 
 public class APIClient {
-    
+    var token: String?
     static let shared = APIClient()
     let urlFactory = URLFactory()
     
@@ -257,9 +257,9 @@ extension APIClient {
     }
 
     public func addAuthToken(_ headers: inout HTTPHeaders) {
-//        if let token = "LocalStorage.standard.user?.token" {
-//            headers[APIStrings.APIClient.authorization] = String(format: APIStrings.APIClient.token, token)
-//        }
+        if let token = token {
+            headers[APIStrings.APIClient.authorization] = String(format: APIStrings.APIClient.token, token)
+        }
     }
 
     public func isNetworkReachable<T>(_ completion: @escaping APICompletion<T>)
