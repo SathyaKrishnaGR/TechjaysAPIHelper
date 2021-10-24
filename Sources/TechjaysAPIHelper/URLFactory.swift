@@ -15,9 +15,9 @@ public enum QueryParam: String {
     case limit
 }
 
-public class URLFactory {
+ public class URLFactory {
     
-    public let shared = URLFactory()
+    public static let shared = URLFactory()
     
     public init() {}
     
@@ -31,7 +31,7 @@ public class URLFactory {
     /// - Returns: Fayvit URL string for the provided paramters
     public func url(
         endpoint: String,
-        query: [QueryParam: String] = [.limit: "String(api.fetchLimit)"],
+        query: [QueryParam: String] = [.limit: String("10")],
         parameters: [String: String] = [:],
         pathVariable: String = "",
         version: Int = 1
@@ -42,16 +42,15 @@ public class URLFactory {
 }
 
 extension URLFactory {
-    private func buildBaseUrl(for version: Int) -> String {
-//        return AppUrls.base + String(format: AppUrls.version, version)
-        return ""
+    public func buildBaseUrl(for version: Int) -> String {
+        return "https://dev.myfayvit.com/" + String(format: "api/v%d/", version)
     }
 
-    private func buildPathVariable(for url: String, with pathVariable: String) -> String {
+    public func buildPathVariable(for url: String, with pathVariable: String) -> String {
         return pathVariable.isEmpty ? "\(url)" : "\(url)\(pathVariable)/"
     }
 
-    private func queryParamsOf(_ query: [QueryParam: String], _ parameters: [String: String]) -> String {
+    public func queryParamsOf(_ query: [QueryParam: String], _ parameters: [String: String]) -> String {
         var queryParams = [String]()
         for (key, value) in query {
             queryParams.append("\(key)=\(value)")
