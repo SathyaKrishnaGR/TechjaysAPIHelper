@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum QueryParam: String {
+public enum QueryParam: String {
     case search
     case fields
     case offset
@@ -17,9 +17,9 @@ enum QueryParam: String {
 
 public class URLFactory {
     
-    static let shared = URLFactory()
+    public let shared = URLFactory()
     
-    init() {}
+    public init() {}
     
     /// Generate Fayvit URL String for provided endpoint
     /// - Parameters:
@@ -29,7 +29,7 @@ public class URLFactory {
     ///   - version: API version
     ///   - query: Preset query parameters like search, fields & pagination
     /// - Returns: Fayvit URL string for the provided paramters
-    func url(
+    public func url(
         endpoint: String,
         query: [QueryParam: String] = [.limit: "String(api.fetchLimit)"],
         parameters: [String: String] = [:],
