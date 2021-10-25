@@ -17,7 +17,7 @@ public struct APIStrings {
         static let JPG = "jpg"
         static let facebook = "facebook"
         static let authorization = "Authorization"
-        static let token = "Token %@"
+        static let token = "Token "
         static let imageJpg = "image/jpg"
         static let image = "image"
         static let profilePic = "profile_pic"
