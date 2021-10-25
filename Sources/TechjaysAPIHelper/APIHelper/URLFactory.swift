@@ -38,7 +38,7 @@ public enum QueryParam: String {
         pathVariable: String = "",
         version: String = "1"
     ) -> String {
-        let url = buildBaseUrl(baseUrl: self.baseUrl, version: self.version) + endpoint
+        let url = buildBaseUrl(baseUrl: URLFactory.shared.baseUrl, version: URLFactory.shared.version) + endpoint
         return buildPathVariable(for: url, with: pathVariable) + queryParamsOf(query, parameters)
     }
 }
