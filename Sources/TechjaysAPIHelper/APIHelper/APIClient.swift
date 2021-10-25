@@ -17,7 +17,10 @@ public class APIClient {
     static let shared = APIClient()
     let urlFactory = URLFactory()
     
-    public init() {}
+    public init() {
+        
+        print("Token is \(token)")
+    }
     
     /// Sends a GET request to the server
     /// - Parameters:
@@ -257,7 +260,9 @@ extension APIClient {
     }
 
     public func addAuthToken(_ headers: inout HTTPHeaders) {
-        headers[APIStrings.APIClient.authorization] = APIStrings.APIClient.token
+        if let token = token {
+            headers[APIStrings.APIClient.authorization] = APIStrings.APIClient.token + token
+        }
     }
 
     public func isNetworkReachable<T>(_ completion: @escaping APICompletion<T>)
