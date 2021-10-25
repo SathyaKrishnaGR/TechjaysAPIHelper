@@ -13,14 +13,11 @@ import UIKit
 public typealias  APICompletion<T: Codable> =  (_ status: APIClient.Status, _ response: APIResponse<T>) -> Void
 
 public class APIClient {
-    var token: String?
+    var token: String = ""
     static let shared = APIClient()
     let urlFactory = URLFactory()
     
-    public init() {
-        
-        print("Token is \(token)")
-    }
+    public init() {}
     
     /// Sends a GET request to the server
     /// - Parameters:
@@ -260,8 +257,8 @@ extension APIClient {
     }
 
     public func addAuthToken(_ headers: inout HTTPHeaders) {
-        if let token = token {
-            headers[APIStrings.APIClient.authorization] = APIStrings.APIClient.token + token
+        if APIClient.shared.token != "" {
+            headers[APIStrings.APIClient.authorization] = APIStrings.APIClient.token + APIClient.shared.token
         }
     }
 
