@@ -260,6 +260,7 @@ extension APIClient {
         if let token = token {
             headers[APIStrings.APIClient.authorization] = String(format: APIStrings.APIClient.token, token)
         }
+        
     }
 
     public func isNetworkReachable<T>(_ completion: @escaping APICompletion<T>)
