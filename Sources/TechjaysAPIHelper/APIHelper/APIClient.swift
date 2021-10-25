@@ -257,10 +257,7 @@ extension APIClient {
     }
 
     public func addAuthToken(_ headers: inout HTTPHeaders) {
-        if APIStrings.APIClient.token != "" {
-            headers[APIStrings.APIClient.authorization] = String(format: APIStrings.APIClient.token, token)
-        }
-        
+        headers[APIStrings.APIClient.authorization] = APIStrings.APIClient.token
     }
 
     public func isNetworkReachable<T>(_ completion: @escaping APICompletion<T>)
