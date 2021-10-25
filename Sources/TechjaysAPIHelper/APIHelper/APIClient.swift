@@ -257,7 +257,7 @@ extension APIClient {
     }
 
     public func addAuthToken(_ headers: inout HTTPHeaders) {
-        if let token = token {
+        if APIStrings.APIClient.token ! = "" {
             headers[APIStrings.APIClient.authorization] = String(format: APIStrings.APIClient.token, token)
         }
         
