@@ -17,6 +17,12 @@ public class APIClient {
     static let shared = APIClient()
     let urlFactory = URLFactory()
     
+    struct MultipartFile {
+        let fileName: String
+        let fileExtension: String
+        let data: Data
+    }
+    
     public init() {}
     
     /// Sends a GET request to the server
@@ -64,46 +70,43 @@ public class APIClient {
         executeRequest(to: url, headers: headers, requestType: .delete, payload: parsePayload(payload), completion: completion)
     }
 
-    /// Sends a MultipartFormData request as POST or PUT with one Image to the server
-    /// - Parameters:
-    ///   - url: Request URL
-    ///   - method: Request type - POST, PUT, DELETE, etc./
-    ///   - payload: Request payload. Note: The values should always be string for MultipartFormData request
-    ///   - image: Key - Image field name, Value - Image to be sent
-    ///   - completion: Completion callback which will be called asyncronously when response is received
-    public func MULTIPART<T: Codable> (url: String,
-                                headers: [String: String]? = nil,
-                                uploadType method: HTTPMethod,
-                                image: (key: String, value: UIImage)? = nil,
-                                completion: @escaping APICompletion<T>) {
-        executeRequest(to: url,
-                       headers: headers,
-                       requestType: method,
-                       payload: [String: Any](),
-                       image: image,
-                       completion: completion)
-    }
+    func MULTIPART<T: Codable> (url: String,
+                                 headers: [String: String]? = nil,
+                                 uploadType method: HTTPMethod,
+                                 images: [(key: String, value: UIImage)]? = nil,
+                                 files: [MultipartFile]? = nil,
+                                 completion: @escaping APICompletion<T>) {
+         executeRequest(to: url,
+                        headers: headers,
+                        requestType: method,
+                        payload: [String: Any](),
+                        images: images,
+                        files: files,
+                        completion: completion)
+     }
 
-    /// Sends a MultipartFormData request as POST or PUT with one Image to the server
-    /// - Parameters:
-    ///   - url: Request URL
-    ///   - method: Request type - POST, PUT, DELETE, etc./
-    ///   - payload: Request payload. Note: The values should always be string for MultipartFormData request
-    ///   - image: Key - Image field name, Value - Image to be sent
-    ///   - completion: Completion callback which will be called asyncronously when response is received
-    public func MULTIPART<P, T: Codable> (url: String,
-                                   headers: [String: String]? = nil,
-                                   uploadType method: HTTPMethod,
-                                   payload: P,
-                                   image: (key: String, value: UIImage)? = nil,
-                                   completion: @escaping APICompletion<T>) {
-        executeRequest(to: url,
-                       headers: headers,
-                       requestType: method,
-                       payload: parsePayload(payload) ?? [String: Any](),
-                       image: image,
-                       completion: completion)
-    }
+     /// Sends a MultipartFormData request as POST or PUT with one Image to the server
+     /// - Parameters:
+     ///   - url: Request URL
+     ///   - method: Request type - POST, PUT, DELETE, etc./
+     ///   - payload: Request payload. Note: The values should always be string for MultipartFormData request
+     ///   - image: Key - Image field name, Value - Image to be sent
+     ///   - completion: Completion callback which will be called asyncronously when response is received
+     func MULTIPART<P, T: Codable> (url: String,
+                                    headers: [String: String]? = nil,
+                                    uploadType method: HTTPMethod,
+                                    payload: P,
+                                    images: [(key: String, value: UIImage)]? = nil,
+                                    files: [MultipartFile]? = nil,
+                                    completion: @escaping APICompletion<T>) {
+         executeRequest(to: url,
+                        headers: headers,
+                        requestType: method,
+                        payload: parsePayload(payload) ?? [String: Any](),
+                        images: images,
+                        files: files,
+                        completion: completion)
+     }
 }
 
 extension APIClient {
@@ -137,6 +140,7 @@ extension APIClient {
         }
     }
 
+    
     /// Handles MultipartFormData Request for PUT and POST with one Image
     /// - Parameters:
     ///   - url: Request URL
@@ -144,33 +148,42 @@ extension APIClient {
     ///   - image: Key - Image field name, Value - Image to be sent
     ///   - param: Request payload. Note: The values should always be string for MultipartFormData request
     ///   - completion: Completion callback which will be called asyncronously when response is received
-    public func executeRequest<T: Codable>(to url: String,
+    private func executeRequest<T: Codable>(to url: String,
                                             headers: [String: String]? = nil,
                                             requestType method: HTTPMethod,
                                             payload param: [String: Any],
-                                            image: (key: String, value: UIImage)?,
+                                            images: [(key: String, value: UIImage)]?,
+                                            files: [MultipartFile]?,
                                             completion: @escaping APICompletion<T>) {
         guard isNetworkReachable(completion) else {
             return
         }
-        let headers: HTTPHeaders = buildHeaders(contentType: APIStrings.APIClient.multipartFormData, overrideHeaders: headers)
-
+        let headers: HTTPHeaders = buildHeaders(contentType: APIStrings.APIClient.applicationJson, overrideHeaders: headers)
+        
         let multipartFormData = { (data: MultipartFormData) in
-            if let img = image, let jpegImage = img.value.jpegData(compressionQuality: 1) {
-                data.append(jpegImage,
-                            withName: img.key,
-                            fileName: "\(img.key).\(APIStrings.APIClient.JPG)",
-                    mimeType: APIStrings.APIClient.imageJpg)
-            }
+            images?.forEach({ img in
+                if let jpegImage = img.value.jpegData(compressionQuality: 1) {
+                    data.append(jpegImage,
+                                withName: img.key,
+                                fileName: "\(img.key).jpg",
+                                mimeType: "image/jpg")
+                }
+            })
+            files?.forEach({ file in
+                data.append(file.data,
+                            withName: file.fileName,
+                            fileName: "\(file.fileName).\(file.fileExtension)",
+                            mimeType: "application/octet-stream")
+            })
             for (key, value) in param {
                 if let value = value as? String, let utf8Value = value.data(using: String.Encoding.utf8) {
                     data.append(utf8Value, withName: key)
                 } else {
-                    debugPrint(String(format: APIStrings.APIClient.multiPartPayloadMustBeString, key))
+                    debugPrint(String(format: "multiPartPayloadMustBeString", key))
                 }
             }
         }
-
+        
         debugPrint(param)
         guard let encodedUrl = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
             completion(.FAILURE, APIResponse<T>(result: false, msg: "Url can't be encoded"))
