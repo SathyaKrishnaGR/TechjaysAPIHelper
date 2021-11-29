@@ -17,7 +17,7 @@ public class APIClient {
     static let shared = APIClient()
     let urlFactory = URLFactory()
     
-    struct MultipartFile {
+    public struct MultipartFile {
         let fileName: String
         let fileExtension: String
         let data: Data
@@ -148,7 +148,7 @@ extension APIClient {
     ///   - image: Key - Image field name, Value - Image to be sent
     ///   - param: Request payload. Note: The values should always be string for MultipartFormData request
     ///   - completion: Completion callback which will be called asyncronously when response is received
-    private func executeRequest<T: Codable>(to url: String,
+    public func executeRequest<T: Codable>(to url: String,
                                             headers: [String: String]? = nil,
                                             requestType method: HTTPMethod,
                                             payload param: [String: Any],
