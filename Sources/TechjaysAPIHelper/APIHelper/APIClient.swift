@@ -98,10 +98,10 @@ public class APIClient {
      ///   - payload: Request payload. Note: The values should always be string for MultipartFormData request
      ///   - image: Key - Image field name, Value - Image to be sent
      ///   - completion: Completion callback which will be called asyncronously when response is received
-     public func MULTIPART<P, T: Codable> (url: String,
+     public func MULTIPART<T: Codable> (url: String,
                                     headers: [String: String]? = nil,
                                     uploadType method: HTTPMethod,
-                                    payload: P,
+                                    payload: [String: Any],
                                     images: [(key: String, value: UIImage)]? = nil,
                                     files: [MultipartFile]? = nil,
                                     completion: @escaping APICompletion<T>) {
