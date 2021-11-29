@@ -12,16 +12,18 @@ import UIKit
 
 public typealias  APICompletion<T: Codable> =  (_ status: APIClient.Status, _ response: APIResponse<T>) -> Void
 
+public struct MultipartFile {
+    public var fileName: String
+    public var fileExtension: String
+    public var data: Data
+}
+
 public class APIClient {
     var token: String = ""
     static let shared = APIClient()
     let urlFactory = URLFactory()
     
-    public struct MultipartFile {
-        public var fileName: String
-        public var fileExtension: String
-        public var data: Data
-    }
+    
     
     public init() {}
     
