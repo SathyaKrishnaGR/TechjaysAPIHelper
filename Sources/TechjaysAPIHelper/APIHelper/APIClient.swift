@@ -18,6 +18,7 @@ public class APIClient {
     var token: String = ""
     static let shared = APIClient()
     let urlFactory = URLFactory()
+    let multipartFile = MultipartFile()
     
     public struct MultipartFile {
         public var fileName: String = ""
