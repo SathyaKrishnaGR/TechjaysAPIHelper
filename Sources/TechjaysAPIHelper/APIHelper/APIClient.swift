@@ -18,9 +18,9 @@ public class APIClient {
     let urlFactory = URLFactory()
     
     public struct MultipartFile {
-        let fileName: String
-        let fileExtension: String
-        let data: Data
+        public var fileName: String
+        public var fileExtension: String
+        public var data: Data
     }
     
     public init() {}
