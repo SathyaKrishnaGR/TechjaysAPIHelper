@@ -7,31 +7,33 @@
 //
 
 import Foundation
-//import Reachability
 import Alamofire
 import UIKit
 
-typealias APICompletion<T: Codable> =  (_ status: APIClient.Status, _ response: APIResponse<T>) -> Void
+public typealias  APICompletion<T: Codable> =  (_ status: APIClient.Status, _ response: APIResponse<T>) -> Void
+
+
 
 public class APIClient {
-
-    struct MultipartFile {
-        let fileName: String
-        let fileExtension: String
-        let data: Data
-    }
-    
     var token: String = ""
     static let shared = APIClient()
     let urlFactory = URLFactory()
+   // public var multipartFile = MultipartFile(fileName: <#String#>, fileExtension: <#String#>, data: <#Data#>)
     
-    init() {}
+    public struct MultipartFile {
+            let fileName: String
+            let fileExtension: String
+            let data: Data
+        }
+    
+    
+    public init() {}
     
     /// Sends a GET request to the server
     /// - Parameters:
     ///   - url: Request URL
     ///   - completion: Completion callback which will be called asyncronously when response is received
-    func GET<T: Codable>(url: String,
+    public func GET<T: Codable>(url: String,
                          headers: [String: String]? = nil,
                          completion:@escaping APICompletion<T>) {
         executeRequest(to: url, headers: headers, requestType: .get, completion: completion)
@@ -42,7 +44,7 @@ public class APIClient {
     ///   - url: Request URL
     ///   - payload: Request Payload
     ///   - completion: Completion callback which will be called asyncronously when response is received
-    func POST<P, T: Codable> (url: String,
+    public func POST<P, T: Codable> (url: String,
                               headers: [String: String]? = nil,
                               payload: P,
                               completion:@escaping APICompletion<T>) {
@@ -54,7 +56,7 @@ public class APIClient {
     ///   - url: Request URL
     ///   - payload: Request Payload
     ///   - completion: Completion callback which will be called asyncronously when response is received
-    func PUT<P, T: Codable> (url: String,
+    public func PUT<P, T: Codable> (url: String,
                              headers: [String: String]? = nil,
                              payload: P,
                              completion: @escaping APICompletion<T>) {
@@ -65,57 +67,50 @@ public class APIClient {
     /// - Parameters:
     ///   - url: Request URL
     ///   - completion: Completion callback which will be called asyncronously when response is received
-    func DELETE<P, T: Codable>(url: String,
+    public func DELETE<P, T: Codable>(url: String,
                                headers: [String: String]? = nil,
                                payload: P,
                                completion: @escaping APICompletion<T>) {
         executeRequest(to: url, headers: headers, requestType: .delete, payload: parsePayload(payload), completion: completion)
     }
 
-    /// Sends a MultipartFormData request as POST or PUT with one Image to the server
-    /// - Parameters:
-    ///   - url: Request URL
-    ///   - method: Request type - POST, PUT, DELETE, etc./
-    ///   - payload: Request payload. Note: The values should always be string for MultipartFormData request
-    ///   - image: Key - Image field name, Value - Image to be sent
-    ///   - completion: Completion callback which will be called asyncronously when response is received
-    func MULTIPART<T: Codable> (url: String,
-                                headers: [String: String]? = nil,
-                                uploadType method: HTTPMethod,
-                                images: [(key: String, value: UIImage)]? = nil,
-                                files: [MultipartFile]? = nil,
-                                completion: @escaping APICompletion<T>) {
-        executeRequest(to: url,
-                       headers: headers,
-                       requestType: method,
-                       payload: [String: Any](),
-                       images: images,
-                       files: files,
-                       completion: completion)
-    }
+    public func MULTIPART<T: Codable> (url: String,
+                                 headers: [String: String]? = nil,
+                                 uploadType method: HTTPMethod,
+                                 images: [(key: String, value: UIImage)]? = nil,
+                                 files: [MultipartFile]? = nil,
+                                 completion: @escaping APICompletion<T>) {
+         executeRequest(to: url,
+                        headers: headers,
+                        requestType: method,
+                        payload: [String: Any](),
+                        images: images,
+                        files: files,
+                        completion: completion)
+     }
 
-    /// Sends a MultipartFormData request as POST or PUT with one Image to the server
-    /// - Parameters:
-    ///   - url: Request URL
-    ///   - method: Request type - POST, PUT, DELETE, etc./
-    ///   - payload: Request payload. Note: The values should always be string for MultipartFormData request
-    ///   - image: Key - Image field name, Value - Image to be sent
-    ///   - completion: Completion callback which will be called asyncronously when response is received
-    func MULTIPART<P, T: Codable> (url: String,
-                                   headers: [String: String]? = nil,
-                                   uploadType method: HTTPMethod,
-                                   payload: P,
-                                   images: [(key: String, value: UIImage)]? = nil,
-                                   files: [MultipartFile]? = nil,
-                                   completion: @escaping APICompletion<T>) {
-        executeRequest(to: url,
-                       headers: headers,
-                       requestType: method,
-                       payload: parsePayload(payload) ?? [String: Any](),
-                       images: images,
-                       files: files,
-                       completion: completion)
-    }
+     /// Sends a MultipartFormData request as POST or PUT with one Image to the server
+     /// - Parameters:
+     ///   - url: Request URL
+     ///   - method: Request type - POST, PUT, DELETE, etc./
+     ///   - payload: Request payload. Note: The values should always be string for MultipartFormData request
+     ///   - image: Key - Image field name, Value - Image to be sent
+     ///   - completion: Completion callback which will be called asyncronously when response is received
+     public func MULTIPART<T: Codable> (url: String,
+                                    headers: [String: String]? = nil,
+                                    uploadType method: HTTPMethod,
+                                    payload: [String: Any],
+                                    images: [(key: String, value: UIImage)]? = nil,
+                                    files: [MultipartFile]? = nil,
+                                    completion: @escaping APICompletion<T>) {
+         executeRequest(to: url,
+                        headers: headers,
+                        requestType: method,
+                        payload: parsePayload(payload) ?? [String: Any](),
+                        images: images,
+                        files: files,
+                        completion: completion)
+     }
 }
 
 extension APIClient {
@@ -125,7 +120,7 @@ extension APIClient {
     ///   - method: HTTP Request type - GET, POST, PUT, DELETE
     ///   - payload: Request payload. Note: The values should always be string for MultipartFormData request
     ///   - completion: Completion callback which will be called asyncronously when response is received
-    private func executeRequest<T: Codable>(to url: String,
+    public func executeRequest<T: Codable>(to url: String,
                                             headers: [String: String]? = nil,
                                             requestType method: HTTPMethod,
                                             payload: [String: Any]? = nil,
@@ -149,6 +144,7 @@ extension APIClient {
         }
     }
 
+    
     /// Handles MultipartFormData Request for PUT and POST with one Image
     /// - Parameters:
     ///   - url: Request URL
@@ -156,7 +152,7 @@ extension APIClient {
     ///   - image: Key - Image field name, Value - Image to be sent
     ///   - param: Request payload. Note: The values should always be string for MultipartFormData request
     ///   - completion: Completion callback which will be called asyncronously when response is received
-    private func executeRequest<T: Codable>(to url: String,
+    public func executeRequest<T: Codable>(to url: String,
                                             headers: [String: String]? = nil,
                                             requestType method: HTTPMethod,
                                             payload param: [String: Any],
@@ -166,7 +162,7 @@ extension APIClient {
         guard isNetworkReachable(completion) else {
             return
         }
-        let headers: HTTPHeaders = buildHeaders(contentType: APIStrings.APIClient.multipartFormData, overrideHeaders: headers)
+        let headers: HTTPHeaders = buildHeaders(contentType: APIStrings.APIClient.applicationJson, overrideHeaders: headers)
         
         let multipartFormData = { (data: MultipartFormData) in
             images?.forEach({ img in
@@ -187,7 +183,7 @@ extension APIClient {
                 if let value = value as? String, let utf8Value = value.data(using: String.Encoding.utf8) {
                     data.append(utf8Value, withName: key)
                 } else {
-                    debugPrint(String(format: APIStrings.APIClient.multiPartPayloadMustBeString, key))
+                    debugPrint(String(format: "multiPartPayloadMustBeString", key))
                 }
             }
         }
@@ -213,7 +209,7 @@ extension APIClient {
     /// - Parameters:
     ///   - response: Alamofire response which was received from the server
     ///   - completion: Completion callback through which the Success or Failure response will be sent
-    private func parseResponse<T: Codable>(
+    public func parseResponse<T: Codable>(
         response: AFDataResponse<Any>,
         completion :@escaping APICompletion<T>) {
         do {
@@ -235,7 +231,7 @@ extension APIClient {
                 case 401:
                     apiResponse = APIResponse<T>(result: false, msg: APIStrings.APIClient.unAuthorized)
                     completion(.FAILURE, apiResponse)
-                    //SigninManager().triggerLogoutActions()
+                    // 401, Logout here
                 default:
                     apiResponse = try JSONDecoder().decode(APIResponse<T>.self, from: response.data!)
                     completion(.FAILURE, apiResponse)
@@ -252,7 +248,7 @@ extension APIClient {
 }
 
 extension APIClient {
-    private func parsePayload<P>(_ payload: P) -> [String: Any]? {
+    public func parsePayload<P>(_ payload: P) -> [String: Any]? {
         if let codable = payload as? Codable {
             return codable.asDictionary()
         }
@@ -262,7 +258,7 @@ extension APIClient {
         return nil
     }
 
-    private func buildHeaders(contentType: String, overrideHeaders: [String: String]? = nil) -> HTTPHeaders {
+    public func buildHeaders(contentType: String, overrideHeaders: [String: String]? = nil) -> HTTPHeaders {
         var headers: HTTPHeaders = [
             APIStrings.APIClient.contentType: contentType,
             APIStrings.APIClient.device: AppKeys.DeviceUUID,
@@ -283,7 +279,7 @@ extension APIClient {
         }
     }
 
-    private func isNetworkReachable<T>(_ completion: @escaping APICompletion<T>)
+    public func isNetworkReachable<T>(_ completion: @escaping APICompletion<T>)
         -> Bool {
         if NetworkReachabilityManager()?.isReachable ?? false {
             return true
@@ -295,11 +291,11 @@ extension APIClient {
         return false
     }
 
-    enum Status {
+    public enum Status {
         case SUCCESS, FAILURE
     }
 
-    enum UploadType {
+    public enum UploadType {
         case POST, PUT
     }
 }
