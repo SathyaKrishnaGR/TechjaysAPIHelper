@@ -21,9 +21,9 @@ public class APIClient {
    // public var multipartFile = MultipartFile(fileName: <#String#>, fileExtension: <#String#>, data: <#Data#>)
     
     public struct MultipartFile {
-            let fileName: String
-            let fileExtension: String
-            let data: Data
+            public let fileName: String
+            public let fileExtension: String
+            public let data: Data
         }
     
     
