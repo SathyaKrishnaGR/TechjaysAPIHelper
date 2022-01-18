@@ -18,14 +18,12 @@ public class APIClient {
     var token: String = ""
     static let shared = APIClient()
     let urlFactory = URLFactory()
-    public var multipartFile = MultipartFile()
+   // public var multipartFile = MultipartFile()
     
-    public struct MultipartFile {
-        public var fileName: String = ""
-        public var fileExtension: String = ""
-        public var data: Data = Data()
-
-        public init() {}
+    struct MultipartFile {
+        let fileName: String
+        let fileExtension: String
+        let data: Data
     }
     
     
@@ -76,7 +74,7 @@ public class APIClient {
         executeRequest(to: url, headers: headers, requestType: .delete, payload: parsePayload(payload), completion: completion)
     }
 
-    public func MULTIPART<T: Codable> (url: String,
+     func MULTIPART<T: Codable> (url: String,
                                  headers: [String: String]? = nil,
                                  uploadType method: HTTPMethod,
                                  images: [(key: String, value: UIImage)]? = nil,
@@ -98,7 +96,7 @@ public class APIClient {
      ///   - payload: Request payload. Note: The values should always be string for MultipartFormData request
      ///   - image: Key - Image field name, Value - Image to be sent
      ///   - completion: Completion callback which will be called asyncronously when response is received
-     public func MULTIPART<T: Codable> (url: String,
+      func MULTIPART<T: Codable> (url: String,
                                     headers: [String: String]? = nil,
                                     uploadType method: HTTPMethod,
                                     payload: [String: Any],
@@ -154,7 +152,7 @@ extension APIClient {
     ///   - image: Key - Image field name, Value - Image to be sent
     ///   - param: Request payload. Note: The values should always be string for MultipartFormData request
     ///   - completion: Completion callback which will be called asyncronously when response is received
-    public func executeRequest<T: Codable>(to url: String,
+     func executeRequest<T: Codable>(to url: String,
                                             headers: [String: String]? = nil,
                                             requestType method: HTTPMethod,
                                             payload param: [String: Any],
