@@ -300,6 +300,11 @@ public struct MultipartFile {
         public var fileExtension: String
         public var data: Data
     
-   // init() {}
+   //public init() {}
+   public  init(fileName: String, fileExtension: String,data: Data) {
+            self.fileName = fileName
+            self.fileExtension = fileExtension
+       self.data = data
+        }
     }
 
