@@ -20,7 +20,7 @@ public class APIClient {
     let urlFactory = URLFactory()
    // public var multipartFile = MultipartFile(fileName: <#String#>, fileExtension: <#String#>, data: <#Data#>)
     
-    public struct MultipartFile {
+    struct MultipartFile {
             public var fileName: String
             public var fileExtension: String
             public var data: Data
