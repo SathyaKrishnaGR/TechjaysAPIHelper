@@ -18,15 +18,6 @@ public class APIClient {
     var token: String = ""
     static let shared = APIClient()
     let urlFactory = URLFactory()
-    public var multipartFile = MultipartFile()
-    
-    public struct MultipartFile {
-        public var fileName: String = ""
-        public var fileExtension: String = ""
-        public var data: Data = Data()
-
-        public init() {}
-    }
     
     
     public init() {}
@@ -299,5 +290,18 @@ extension APIClient {
 
     public enum UploadType {
         case POST, PUT
+    }
+}
+
+public struct MultipartFile {
+    public var fileName: String
+    public var fileExtension: String
+    public var data: Data
+    
+    //public init() {}
+    public  init(fileName: String, fileExtension: String,data: Data) {
+        self.fileName = fileName
+        self.fileExtension = fileExtension
+        self.data = data
     }
 }
